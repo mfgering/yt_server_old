@@ -1,0 +1,7 @@
+**/__pycache__
+env
+local_settings.py
+#youtube_dl/**
+
+yt_server.db
+yt_server_save.db

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Log</h1>
+  {% set log_str = context.log %}
+  {% set lines = log_str.split('\n') %}
+  <p>
+    {% for line in lines %}
+    {{ line }}</br>
+  {% endfor %}
+  </p>
+{%endblock%}

@@ -1,0 +1,48 @@
+{% macro with_errors(field) %}
+    <div class="form_field">
+    {% if field.label %}
+        {{ field.label }}: 
+    {% endif %}
+    {% if field.errors %}
+        {% set css_class = 'has_error ' + kwargs.pop('class', '') %}
+        {{ field(class=css_class, **kwargs) }}
+        <ul class="errors">{% for error in field.errors %}<li>{{ error|e }}</li>{% endfor %}</ul>
+    {% else %}
+        {{ field(**kwargs) }}
+    {% endif %}
+    </div>
+{% endmacro %}
+
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>Settings</h1>
+    <p class="info-box">Uptime: {{ uptime }}<br/>
+    Youtube-DL version: {{ yt_version }}</p>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ with_errors(form.dl_dir, size=40) }}
+        </p>
+        <p>
+            {{ with_errors(form.dl_patt, size=40) }}
+        </p>
+        <p>
+          {{ with_errors(form.max_dl, size=10) }}
+        </p>
+        <p>
+            {{ with_errors(form.max_done, size=10) }}
+        </p>
+        <p>
+            {{ with_errors(form.proxy_url, size=40) }}
+        </p>
+        <p>
+          {{ with_errors(form.update) }}
+        </p>
+        <p>
+          {{ with_errors(form.restart) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

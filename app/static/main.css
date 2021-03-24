@@ -1,0 +1,41 @@
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.main-menu ul {
+  list-style-type: none;
+}
+
+.main-menu-item {
+  float: left;
+  margin-right: 0.5em;
+}
+.errors {
+  list-style-type: none;
+  color: red;
+}
+
+.has_error {
+  border-color: red
+}
+
+.flashes {
+  list-style: none;
+  border-style: solid;
+  color: red;
+  display: inline-block;
+  padding: 15px;
+}
+
+.info-box {
+  border: solid;
+  display: inline-block;
+  padding: 15px;
+}

@@ -1,0 +1,51 @@
+<html>
+    <head>
+      <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+      {% block headblock %}{% endblock %}
+      <script src="{{ url_for('static', filename='app.js') }}"></script>
+      {% if title %}
+      <title>{{ title }}</title>
+      {% else %}
+      <title>Youtube-DL</title>
+      {% endif %}
+    </head>
+    <body>
+        <div class="main-menu">
+          <ul>
+            <li class="main-menu-item">
+              <a href="/index">Home</a>
+            </li>
+            <li class="main-menu-item">
+              <a href="/download">Download</a>
+            </li>
+            <li class="main-menu-item">
+              <a href="/status">Status</a>
+            </li>
+            <li class="main-menu-item">
+              <a href="/settings">Settings</a>
+            </li>
+            <li class="main-menu-item">
+              <a href="/maint/downloaded">Maint/downloaded</a>
+            </li>
+            <li class="main-menu-item">
+              <a href="/clear/queued">Clear Queued</a>
+            </li>
+            <li class="main-menu-item">
+              <a href="/clear/done">Clear Done</a>
+            </li>
+          </ul>
+        </div>
+        </br>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class="flashes">
+          {% for message in messages %}
+            <li class="flash-message">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+        {% endwith %}
+          {% block content %}{% endblock %}
+    </body>
+</html>

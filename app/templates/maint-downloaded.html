@@ -1,0 +1,83 @@
+{% macro with_errors(field) %}
+    <div class="form_field">
+    {% if field.label %}
+        {{ field.label }}: 
+    {% endif %}
+    {% if field.errors %}
+        {% set css_class = 'has_error ' + kwargs.pop('class', '') %}
+        {{ field(class=css_class, **kwargs) }}
+        <ul class="errors">{% for error in field.errors %}<li>{{ error|e }}</li>{% endfor %}</ul>
+    {% else %}
+        {{ field(**kwargs) }}
+    {% endif %}
+    </div>
+{% endmacro %}
+
+{% extends "base.html" %}
+
+{% macro dl_table(dl_items, css_class, col_labels, cols) %}
+  <div class="{{css_class}}">
+    {% if dl_items|length == 0 %}
+      <p>Empty</p>
+    {% else %}
+      <table>
+        <thead>
+          <tr>
+            <th>Select</th>
+            {% for extra in col_labels %}
+              <th>{{ extra }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for j in dl_items %}
+            <tr rowid="{{ j['rowid'] }}">
+              <td><input type="checkbox" id="{{ j['rowid'] }}"</td>
+            {% for extra in cols %}
+              <td>{{ j[extra]|safe }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+    </div>
+{% endmacro %}
+
+{% block content %}
+    <h1>Downloaded</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ with_errors(form.max_maint_done, size=10) }}
+        </p>
+        <table>
+          <col class="yt-select" style="width: 3%;">
+          <col class="yt-rowid" style="width: 3%;">
+          <col class="yt-url" style="width: 20%;">
+          <col class="yt-title" style="width: 30%;">
+          <col class="yt-log" style="width: 3%;">
+          <thead>
+            <tr>
+              <th>Select</th>
+              <th>ID</th>
+              <th>URL</th>
+              <th>Title</th>
+              <th>Log</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for rec in form.recs %}
+            <tr>
+              <td>{{ rec.selected }} {{ rec.csrf_token }}</td>
+              <td>{{ rec.rowid.data }}</td>
+              <td><a href="{{ rec.url.data }}">{{ rec.url.data }}</a></td>
+              <td>{{ rec.title.data }}</td>
+              <td><a href="/log/stg/{{ rec.rowid.data }}" target="_blank">Log</a></td>
+            </tr>
+          {% endfor %}  
+          </tbody>
+        </table>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
