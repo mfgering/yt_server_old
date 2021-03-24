@@ -1,0 +1,6 @@
+git clone git@github.com:mfgering/yt_server.git
+
+git submodule add https://github.com/ytdl-org/youtube-dl.git youtube_dl
+
+/usr/local/bin/gunicorn --bind 0.0.0.0:8220 --threads 4 --chdir /home/mgering/yt_server app:app
+
