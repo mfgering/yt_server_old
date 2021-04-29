@@ -1,3 +1,4 @@
+import os.path
 from pathlib import Path
 from flask_wtf import FlaskForm
 from wtforms import FormField, FieldList, IntegerField, StringField, PasswordField, BooleanField, SubmitField
@@ -16,6 +17,7 @@ class DownloadForm(FlaskForm):
 	x_audio = BooleanField("Audio only")
 	use_proxy = BooleanField("Use proxy")
 	max_dl = IntegerField("Max concurrent downloads", validators=[NumberRange(min=1, message="Must be at least 1")])
+	cookies_file = StringField('Cookies.txt')
 	submit = SubmitField('Submit')
 
 	@staticmethod
@@ -30,6 +32,13 @@ class DownloadForm(FlaskForm):
 			path1.mkdir(parents=True, exist_ok=False)
 		except Exception as exc:
 			raise ValidationError("Could not create the directory: "+str(exc))
+
+	@staticmethod
+	def validate_cookies_file(form, field):
+		f_str = field.data.strip()
+		if len(f_str) > 0:
+			if not os.path.exists(f_str):
+				raise ValidationError("Should be an existing file.")
 
 class SettingsForm(FlaskForm):
 	dl_dir = StringField('Download directory', validators=[DataRequired(message='A directory name is needed')])

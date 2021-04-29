@@ -24,7 +24,8 @@ def download():
 							dl_patt=session.get('dl_patt', config.Config.instance().DEFAULT_DOWNLOAD_NAME_PATTERN),
 							x_audio=session.get('x_audio', False),
 							max_dl=session.get('max_dl', config.Config.instance().MAX_CONCURRENT_DL),
-							use_proxy=session.get('use_proxy', True))
+							use_proxy=session.get('use_proxy', True),
+							cookie_file=session.get('cookies_file'))
 	else:
 		form = DownloadForm(request.form)
 	if form.validate_on_submit():
@@ -33,6 +34,7 @@ def download():
 		session['x_audio'] = form.x_audio.data
 		session['max_dl'] = form.max_dl.data
 		session['use_proxy'] = form.use_proxy.data
+		session['cookies_file'] = form.cookies_file.data
 		msg = downloader.Downloader.submit_download(form)
 		if msg is not None:
 			flash(msg)

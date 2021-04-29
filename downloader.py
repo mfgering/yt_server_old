@@ -14,6 +14,7 @@ class Downloader(object):
 		ytdl_opts = {}
 		dl_dir = os.path.normpath(form.dl_dir.data)
 		dl_patt = form.dl_patt.data
+		cookies_file = form.cookies_file.data
 		ytdl_opts['outtmpl'] = os.path.join(dl_dir, dl_patt)
 		ytdl_opts['ffmpeg_location'] = Config.instance().FFMPEG_LOCATION
 		ytdl_opts['restrictfilenames'] = Config.instance().RESTRICT_FILENAMES
@@ -35,6 +36,8 @@ class Downloader(object):
 			else:
 				msg = "No proxy URL is configured"
 				return msg
+		if len(cookies_file) > 0:
+			ytdl_opts['cookies'] = cookies_file
 		url = form.url.data
 		Config.instance().MAX_CONCURRENT_DL = form.max_dl.data
 		stg = db_stg.Stg()

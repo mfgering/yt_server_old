@@ -38,6 +38,9 @@
         <p>
             {{ with_errors(form.max_dl, size=10) }}
         </p>
+        <p>
+            {{ with_errors(form.cookies_file, size=40) }}
+        </p>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}
