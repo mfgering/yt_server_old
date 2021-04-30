@@ -25,7 +25,7 @@ def download():
 							x_audio=session.get('x_audio', False),
 							max_dl=session.get('max_dl', config.Config.instance().MAX_CONCURRENT_DL),
 							use_proxy=session.get('use_proxy', True),
-							cookie_file=session.get('cookies_file'))
+							cookies_file=session.get('cookies_file'))
 	else:
 		form = DownloadForm(request.form)
 	if form.validate_on_submit():
