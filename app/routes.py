@@ -74,7 +74,7 @@ def settings():
 		flash("Please fix the problems and try again.")
 	
 	return render_template('settings.html', title='Settings', form=form, uptime=uptime_str,
-		yt_version=youtube_dl.youtube_dl.version.__version__)
+		yt_version=youtube_dl_proj.youtube_dl.version.__version__)
 
 def submit_settings(form):
 	msg = None
