@@ -1,6 +1,9 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
+import sys
+print(sys.path)
+
 from youtube_dl.extractor.common import InfoExtractor
 
 

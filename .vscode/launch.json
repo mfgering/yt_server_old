@@ -35,7 +35,7 @@
       "type": "python",
       "request": "launch",
       "program": "test_extractor.py",
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
     }
   ]
 }
