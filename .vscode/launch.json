@@ -29,6 +29,13 @@
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: Test",
+      "type": "python",
+      "request": "launch",
+      "program": "test_extractor.py",
+      "console": "integratedTerminal"
     }
   ]
 }
