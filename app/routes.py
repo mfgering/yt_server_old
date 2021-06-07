@@ -5,7 +5,7 @@ import psutil
 import sys
 import jinja2.utils
 import jinja2.filters
-import youtube_dl
+import youtube_dl_proj
 from wtforms import IntegerField, StringField, PasswordField, BooleanField, SubmitField
 from flask import render_template, flash, redirect, request, session
 import config, downloader

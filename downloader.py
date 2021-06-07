@@ -3,7 +3,7 @@ from config import Config
 from io import StringIO
 import logging
 from threading import Thread
-import youtube_dl.youtube_dl.YoutubeDL
+import youtube_dl_proj.youtube_dl.YoutubeDL
 import db_stg
 
 class Downloader(object):
@@ -96,7 +96,7 @@ class DownloadThread(Thread):
 		opts = ytdl_opts.copy()
 		opts['logger'] = self.logger
 		self.dump_dl_opts(opts)
-		ytdl = youtube_dl.youtube_dl.YoutubeDL(opts)
+		ytdl = youtube_dl_proj.youtube_dl.YoutubeDL(opts)
 		try:
 			info = ytdl.extract_info(url, download=False)
 			if 'title' in info:
