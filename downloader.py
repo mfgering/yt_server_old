@@ -3,8 +3,9 @@ from config import Config
 from io import StringIO
 import logging
 from threading import Thread
-import youtube_dl_proj.youtube_dl.YoutubeDL
+import youtube_dl_proj
 import db_stg
+import extractor
 
 class Downloader(object):
 	Running = []
@@ -97,6 +98,12 @@ class DownloadThread(Thread):
 		opts['logger'] = self.logger
 		self.dump_dl_opts(opts)
 		ytdl = youtube_dl_proj.youtube_dl.YoutubeDL(opts)
+		# Add our custom extractors
+		# NOTE: Take care to add the extractors before the existing generic one
+		ytdl._ies.remove(youtube_dl_proj.youtube_dl.extractor.GenericIE)
+		for extr in extractor.gen_extractor_classes():
+			ytdl.add_info_extractor(extr())
+		ytdl.add_info_extractor(youtube_dl_proj.youtube_dl.extractor.GenericIE)
 		try:
 			info = ytdl.extract_info(url, download=False)
 			if 'title' in info:
