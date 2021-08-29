@@ -6,6 +6,7 @@ import sys
 import jinja2.utils
 import jinja2.filters
 import youtube_dl
+import yt_dlp
 from wtforms import IntegerField, StringField, PasswordField, BooleanField, SubmitField
 from flask import render_template, flash, redirect, request, session
 import config, downloader
@@ -60,8 +61,8 @@ def settings():
 							)
 	else:
 		form = SettingsForm(request.form)
+	cfg = config.Config.instance()
 	if form.validate_on_submit():
-		cfg = config.Config.instance()
 		cfg.DEFAULT_DOWNLOAD_DIR = session['dl_dir'] = form.dl_dir.data
 		cfg.DEFAULT_DOWNLOAD_NAME_PATTERN = session['dl_patt'] = form.dl_patt.data
 		cfg.MAX_CONCURRENT_DL = session['max_dl'] = form.max_dl.data
@@ -74,9 +75,12 @@ def settings():
 		return redirect('/settings')
 	if len(form.errors) > 0:
 		flash("Please fix the problems and try again.")
-	
+	if cfg.DOWNLOADER == 'youtube_dl':
+		yt_version = youtube_dl.version.__version__ +" (youtube_dl)"
+	else:
+		yt_version = yt_dlp.version.__version__ + " (yt_dlp)"
 	return render_template('settings.html', title='Settings', form=form, uptime=uptime_str,
-		yt_version=youtube_dl.youtube_dl.version.__version__)
+		yt_version=yt_version)
 
 def submit_settings(form):
 	msg = None
