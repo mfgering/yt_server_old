@@ -3,8 +3,22 @@ from config import Config
 from io import StringIO
 import logging
 from threading import Thread
-import youtube_dl.youtube_dl.YoutubeDL
 import db_stg
+# NOTE: The PYTHONPATH should be adjusted so the following imports succeed
+import youtube_dl.YoutubeDL
+import yt_dlp.YoutubeDL
+
+def patch_path(subdir):
+	from pathlib import Path
+
+	p1 = sys.path
+	p2 = Path(p1[0]) / subdir
+
+	p3 = str(p2)
+	sys.path.insert(1, p3)
+
+#patch_path('yt_dlp_downloader')
+#patch_path('youtube_dl')
 
 class Downloader(object):
 	Running = []
@@ -96,7 +110,10 @@ class DownloadThread(Thread):
 		opts = ytdl_opts.copy()
 		opts['logger'] = self.logger
 		self.dump_dl_opts(opts)
-		ytdl = youtube_dl.youtube_dl.YoutubeDL(opts)
+		if Config.instance().DOWNLOADER == 'youtube_dl':
+			ytdl = youtube_dl.YoutubeDL(opts)
+		else:
+			ytdl = yt_dlp.YoutubeDL(opts)
 		try:
 			info = ytdl.extract_info(url, download=False)
 			if 'title' in info:
