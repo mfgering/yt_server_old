@@ -2,6 +2,7 @@ import os.path
 from pathlib import Path
 from flask_wtf import FlaskForm
 from wtforms import FormField, FieldList, IntegerField, StringField, PasswordField, BooleanField, SubmitField
+from wtforms.fields.core import RadioField
 from wtforms.validators import DataRequired, NumberRange, URL, ValidationError
 
 class LoginForm(FlaskForm):
@@ -45,6 +46,7 @@ class SettingsForm(FlaskForm):
 	dl_patt = StringField('Download pattern', validators=[DataRequired(message='A pattern is needed')])
 	proxy_url = StringField('Proxy URL')
 	max_dl = IntegerField("Max concurrent downloads", validators=[NumberRange(min=1, message="Must be at least 1")])
+	downloader = RadioField("Downloader", choices=[("youtube_dl", "youtube_dl"), ('yt_dlp', 'yt_dlp')])
 	restart = BooleanField("Restart server")
 	update = BooleanField("Update server")
 	max_done = IntegerField("Max number of 'done' records for status")

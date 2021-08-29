@@ -55,7 +55,8 @@ def settings():
 							x_audio=session.get('x_audio', False),
 							max_dl=session.get('max_dl', config.Config.instance().MAX_CONCURRENT_DL),
 							max_done=session.get('max_done', config.Config.instance().MAX_DONE),
-							proxy_url=session.get('proxy_url', config.Config.instance().PROXY_URL)
+							proxy_url=session.get('proxy_url', config.Config.instance().PROXY_URL),
+							downloader = session.get('downloader', config.Config.instance().DOWNLOADER)
 							)
 	else:
 		form = SettingsForm(request.form)
@@ -66,6 +67,7 @@ def settings():
 		cfg.MAX_CONCURRENT_DL = session['max_dl'] = form.max_dl.data
 		cfg.MAX_DONE = session['max_done'] = form.max_done.data
 		cfg.PROXY_URL = session['proxy_url'] = form.proxy_url.data
+		cfg.DOWNLOADER = session['downloader'] = form.downloader.data
 		msg = submit_settings(form)
 		if msg is not None:
 			flash(msg)
